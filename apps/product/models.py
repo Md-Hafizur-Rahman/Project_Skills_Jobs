@@ -34,22 +34,20 @@ class Product(models.Model):
     size= models.ManyToManyField(Size,related_name='cat_size')
     price= models.FloatField()
     photo=models.ImageField(upload_to='product')
+    is_featured = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    is_stock = models.BooleanField(default=True)
+    description = models.TextField(null=True, blank=True)
     
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # new
         if not self.slug:
-            self.slug = slugify(self.name)+': '+str(self.price)
-            return super(Product, self).save(*args, **kwargs)
-        
-    def update(self, *args, **kwargs):  # new
-        if not self.slug:
-            a= slugify(self.name)
-            b='-'
-            c=str(self.price)
-            print('print id number',c)
-            d=a+b+c
-            self.slug=d
-        super().update(*args, **kwargs)
-    
+            a = slugify(self.name)
+            b = '-'
+            cc = Product.objects.last().order_by('id')
+            c = str(cc.id + 1)
+            d = a + b + c
+            self.slug = d
+        return super().save(*args, **kwargs)
     def __str__(self):
         return self.name
     
