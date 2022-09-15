@@ -37,7 +37,11 @@ class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     status = models.SmallIntegerField(choices=OrderChoices.choices, default=1)
     payment = models.SmallIntegerField(choices=PaymentChoices.choices, default=1)
+    tnx_id=models.CharField(max_length=20, unique=True)
+    payment_type = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.code
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_item')
