@@ -13,6 +13,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['order', 'product','unit', 'qty', 'price']
 class OrderSerializer(serializers.ModelSerializer):
     order_item=OrderItemSerializer(many=True)
-    class Meta: 
+    class Meta:
         model = Order
         fields = ['code','amount', 'coupon', 'discount','total','date','status','payment','tnx_id','payment_type','order_item']
